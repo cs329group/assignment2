@@ -2,6 +2,7 @@ package assignment2;
 
 import japa.parser.JavaParser;
 import japa.parser.ast.CompilationUnit;
+import japa.parser.ast.body.FieldDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.visitor.VoidVisitorAdapter;
 
@@ -9,10 +10,11 @@ import java.io.FileInputStream;
 
  
 public class prototype {
+	public javaDataType test1 = new javaDataType("test1");
 	public static void main(String[] args) throws Exception {
         // creates an input stream for the file to be parsed
         FileInputStream in = new FileInputStream(System.getProperty("user.dir")+"\\src\\assignment2\\test1.java"); //It's been 4 years and i still dont know how to do this properly :(
-        
+       
         CompilationUnit cu;
         try {
             // parse the file
@@ -21,6 +23,7 @@ public class prototype {
             in.close();
         }
         // visit and print the methods names
+        new variableVisitor().visit(cu, null);
         new MethodVisitor().visit(cu, null);
     }
 
@@ -34,8 +37,22 @@ public class prototype {
             // here you can access the attributes of the method.
             // this method will be called for all methods in this 
             // CompilationUnit, including inner class methods
-            System.out.println(n.getName());
-            System.out.println(n.getParameters());
+            System.out.println("Method: " + n.getName());
+            System.out.println("Parameter: " + n.getParameters());
+            System.out.println("Body: " + n.getBody() + "\n\n\n");
         }
+    }
+    
+    
+    /**
+     * Simple visitor implementation for visiting MethodDeclaration nodes. 
+     */
+    private static class variableVisitor extends VoidVisitorAdapter {
+
+    	@Override
+    	public void visit(FieldDeclaration n, Object arg) {
+    	    System.out.println("Field: " + n);
+    	    super.visit(n, arg);
+    	}
     }
 }
