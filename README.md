@@ -16,10 +16,28 @@ We have three sets of test cases- simple, medium, and difficult. The files are c
 * basicTest1.java
 * basicTest2.java
 
-These are simple java files that we are using to test the addition and deletion of methods and fields.
+####Output
+AM funct3
+DM funct2
+AF integer2
+DF string1
 
 ### Medium
-TODO once created.
+* mediumTest1.java
+* mediumTest2.java
+
+####Output
+AM funct3
+DM funct1
+CM funct2
+AF string3
+DF string1, string2, integer3
+CFI integer1
 
 ### Difficult
-TODO once create.d
+* difficultTest1.java
+* difficultTest2.java
+
+####Output
+CM main, funct2, funct1, funct3
+CFI integer1, integer2, string1, string2
