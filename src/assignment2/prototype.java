@@ -6,18 +6,58 @@ import japa.parser.ast.body.FieldDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.visitor.VoidVisitorAdapter;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 
+// TODO: Change this to false when done debugging and creating application.
+
+
 public class prototype {
+	public static final boolean DEBUG = true;
 	public static javaDataType tempFile;
 	public static void main(String[] args) throws Exception {
-        // creates an input stream for the file to be parsed
-		String file1name = System.getProperty("user.dir")+"\\testingFiles\\basicTest1.java";
-		String file2name = System.getProperty("user.dir")+"\\testingFiles\\basicTest2.java";
+		/*
+		 * arg[0] is file 1 (original file) and arg[1] is file 2 (new file).
+		 * Checking args and if files exist. 
+		 */
+		if(args.length != 2 && !DEBUG){
+			// TODO: Once program name is figured out, add it here.
+		    System.out.println("Arguments are invalid. Use java <program TODO CHANGE THIS> <file1> <file2>");
+		}
+		
+		String file1name;
+		if(DEBUG) file1name = System.getProperty("user.dir")+"\\testingFiles\\basicTest1.java";
+		else file1name = args[0];
+		
+		String file2name;
+		if(DEBUG) file2name = System.getProperty("user.dir")+"\\testingFiles\\basicTest2.java";
+		else file2name = args[1];
+		
+		File file1 = new File(file1name);
+		
+		if(!file1.exists() || !file1.isDirectory()) { 
+		    System.out.println("File 1 is not valid. Exitting...");
+		    System.exit(0);
+		}
+		file1 = null;
+		
+		
+		File file2 = new File(file2name);
+		
+		if(!file2.exists() || !file2.isDirectory()) { 
+		    System.out.println("File 2 is not valid. Exitting...");
+		    System.exit(0);
+		}
+		file2 = null;
+		
+		/*
+		 * Ok, we've checked the files and it seems that they're at least present. 
+		 * Time to start working on the input stream
+		 */
 
-        FileInputStream file1 = new FileInputStream(file1name);
-        FileInputStream file2 = new FileInputStream(file2name); 
+        FileInputStream file1InputStream = new FileInputStream(file1name);
+        FileInputStream file2InputStream = new FileInputStream(file2name); 
         
         javaDataType file1Data = new javaDataType(file1name);
         javaDataType file2Data = new javaDataType(file2name);
@@ -26,13 +66,23 @@ public class prototype {
         CompilationUnit cu2;
         try {
             // parse the file
-            cu1 = JavaParser.parse(file1);
-            cu2 = JavaParser.parse(file2);
+            cu1 = JavaParser.parse(file1InputStream);
+            cu2 = JavaParser.parse(file2InputStream);
         } finally {
-        	file1.close();
-        	file2.close();
-
+        	file1InputStream.close();
+        	file2InputStream.close();
         }
+        
+        /*
+         * Hooray, it parsed! Now we have a variety of things to check:
+         * 1) A method is added in file2
+         * 2) A method is deleted in file2
+         * 3) Changed the body of a method
+         * 4) A method is relocated
+         * 5) Add a field
+         * 6) Delete a field
+         * 7) Change the definition of an instance field initializer
+         */
         
         tempFile = file1Data;
         // visit and print the methods names
