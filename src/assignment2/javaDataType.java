@@ -4,6 +4,7 @@ import japa.parser.ast.body.FieldDeclaration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class javaDataType {
 	public HashMap<String, String> body = new HashMap<String, String>();
@@ -46,4 +47,66 @@ public class javaDataType {
 	public HashMap<String, String> getBody(){
 		return body;
 	}
+	
+	/**
+	 * Checks this javaDataType against another javaDataType assuming this object is the older file and
+	 * the object given in the parameters is the newer/updated file. A method that is the same name but different
+	 * parameters is considered an added method.
+	 * @param updatedFile The file looking for added functions
+	 * @return An ArrayList of methods that were added in updatedFile.
+	 */
+	public ArrayList<String> checkForAddedMethods(javaDataType updatedFile){
+		/*
+		 * Process: Go through each function. If it exists in updatedFile but not in this, then it is an added method
+		 */
+		ArrayList<String> addedMethods = new ArrayList<String>();
+		ArrayList<String> duplicateMethods = new ArrayList<String>();
+		
+		for(String method : methods){
+			if(!updatedFile.methods.contains(method)){
+				// It isn't in there at all, time to say it was added, easy
+				addedMethods.add(method);
+			}
+			else{
+				// Ok, both have it. If there is a greater # of the method in updatedFile, then clearly a method was added
+				// We need to count each method each list to see
+					
+				// TODO: This method for duplicates might not work too well.
+				// If hashmap is used then this might be the only way.
+				if(duplicateMethods.contains(method)) continue;
+				
+				int updatedCount = 0;
+				int originalCount = 0;
+				
+				// First: Checking updatedfile methods
+				Iterator i = updatedFile.methods.listIterator();
+				while(i.hasNext()){
+					String m = (String) i.next();
+					if(m.equals(method)) updatedCount++;
+				}
+				
+				// First: Checking updatedfile methods
+				i = methods.listIterator();
+				while(i.hasNext()){
+					String m = (String) i.next();
+					if(m.equals(method)) originalCount++;
+				}
+				
+				if(updatedCount > originalCount) addedMethods.add(method+"-duplicated "+Integer.toString(updatedCount-originalCount)+" times");
+				
+			}
+		}
+		
+		return addedMethods;
+		
+	}
+	
+	public ArrayList<String> checkForDeletedMethods (javaDataType updatedFile){
+		
+		// Pretty sure this is valid. If a method exists in this but not in updated file,
+		// Then checking for added methods where this is considered the added file is perfectly valid.
+		return updatedFile.checkForAddedMethods(this);
+	}
+	
+	
 }
