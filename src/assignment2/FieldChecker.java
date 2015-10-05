@@ -42,7 +42,6 @@ public class FieldChecker {
 				if(varName.equals(origVar)){
 					isAdded = false; 
 					//variable found, compare changes
-					
 					if(dec1.getModifiers() != dec2.getModifiers()){
 						reports.add(new FieldReporter(dec2, FIELD_CHANGED_MODIFIER));
 					}
@@ -88,8 +87,18 @@ public class FieldChecker {
 			isDeleted = true;
 		}
 		
-		System.out.println(reports);
-		
+	}
+	
+	public void printReports(){
+		if(reports.size() == 0){
+			System.out.println("NO FIELD CHANGES");
+		}else{
+			System.out.println("Fields:");
+			for(int i = 0; i < reports.size(); i++){
+				System.out.println("    " + reports.get(i));
+			}
+		}
+		System.out.println("");
 	}
 	
 	public String getVarName(FieldDeclaration f){

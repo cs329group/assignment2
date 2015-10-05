@@ -110,6 +110,10 @@ public class prototype {
         System.out.println("");
         System.out.println("File 1 Parameters: " + file1Data.getParameters().toString());
         System.out.println("File 2 Parameters: " + file2Data.getParameters().toString());
+        
+        //FieldChecking
+        FieldChecker fieldChecker = new FieldChecker(file1Data, file2Data);
+        fieldChecker.printReports();
 
     }
 
@@ -117,6 +121,7 @@ public class prototype {
 
         @Override
         public void visit(MethodDeclaration n, Object arg) {
+        	System.out.println("Begin line: " + n.getBeginLine());
         	String method = n.getName();
         	String body = n.getBody().toString();
         	String params;
@@ -137,7 +142,7 @@ public class prototype {
 
     	@Override
     	public void visit(FieldDeclaration n, Object arg) {
-    	    tempFile.addField(n.toString());
+    	    tempFile.addField(n);
     	    super.visit(n, arg);
     	}
     }
