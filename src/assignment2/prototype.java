@@ -16,6 +16,8 @@ import java.util.ArrayList;
 public class prototype {
 	public static final boolean DEBUG = true;
 	public static javaDataType tempFile;
+	private static String OS = System.getProperty("os.name").toLowerCase();
+	
 	public static void main(String[] args) throws Exception {
 		/*
 		 * arg[0] is file 1 (original file) and arg[1] is file 2 (new file).
@@ -27,16 +29,19 @@ public class prototype {
 		}
 		
 		String file1name;
-		if(DEBUG) file1name = System.getProperty("user.dir")+"\\testingFiles\\basicTest1.java";
+		if(DEBUG && isWindows()) file1name = System.getProperty("user.dir")+"\\testingFiles\\basicTest1.java";
+		else if(DEBUG && isMac()) file1name = System.getProperty("user.dir")+"/testingFiles/basicTest1.java";
 		else file1name = args[0];
 		
 		String file2name;
-		if(DEBUG) file2name = System.getProperty("user.dir")+"\\testingFiles\\basicTest2.java";
+		if(DEBUG && isWindows()) file2name = System.getProperty("user.dir")+"\\testingFiles\\basicTest2.java";
+		else if(DEBUG && isMac()) file2name = System.getProperty("user.dir")+"/testingFiles/basicTest2.java";
 		else file2name = args[1];
 		
 		File file1 = new File(file1name);
 		
-		if(!file1.exists() || !file1.isDirectory()) { 
+		if(!file1.exists() || file1.isDirectory()) { 
+		    System.out.println(file1name);
 		    System.out.println("File 1 is not valid. Exitting...");
 		    System.exit(0);
 		}
@@ -45,7 +50,8 @@ public class prototype {
 		
 		File file2 = new File(file2name);
 		
-		if(!file2.exists() || !file2.isDirectory()) { 
+		if(!file2.exists() || file2.isDirectory()) { 
+		    System.out.println(file2name);
 		    System.out.println("File 2 is not valid. Exitting...");
 		    System.exit(0);
 		}
@@ -135,4 +141,35 @@ public class prototype {
     	    super.visit(n, arg);
     	}
     }
+    
+    
+    
+    
+    /*
+     * Helper functions to determine files
+     */
+    public static boolean isWindows() {
+
+		return (OS.indexOf("win") >= 0);
+
+	}
+
+	public static boolean isMac() {
+
+		return (OS.indexOf("mac") >= 0);
+
+	}
+
+	public static boolean isUnix() {
+
+		return (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0 );
+		
+	}
+
+	public static boolean isSolaris() {
+
+		return (OS.indexOf("sunos") >= 0);
+
+	}
+
 }
