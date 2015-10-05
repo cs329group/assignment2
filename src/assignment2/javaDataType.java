@@ -1,5 +1,7 @@
 package assignment2;
 
+import japa.parser.ast.body.FieldDeclaration;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -7,7 +9,7 @@ public class javaDataType {
 	public HashMap<String, String> body = new HashMap<String, String>();
 	public HashMap<String, String> parameters = new HashMap<String, String>();
 	public ArrayList<String> methods = new	ArrayList<String>();
-	public ArrayList<String> fields = new	ArrayList<String>();
+	public ArrayList<FieldDeclaration> fields = new	ArrayList<FieldDeclaration>();
 	public String filename = null;
 	public javaDataType(String filename){
 		this.filename = filename;
@@ -21,11 +23,11 @@ public class javaDataType {
 		return methods;
 	}
 	
-	public void addField(String field){
+	public void addField(FieldDeclaration field){
 		fields.add(field);
 	}
 	
-	public ArrayList<String> getFields(){
+	public ArrayList<FieldDeclaration> getFields(){
 		return fields;
 	}
 	
