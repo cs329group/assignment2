@@ -101,7 +101,7 @@ public class javaDataType {
 		return addedMethods;
 		
 	}
-	
+	 
 	public ArrayList<String> checkForAddedMethods (javaDataType updatedFile){
 		
 		// Pretty sure this is valid. If a method exists in this but not in updated file,
