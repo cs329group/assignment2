@@ -99,6 +99,11 @@ public class prototype {
         new variableVisitor().visit(cu2, null);
         new MethodVisitor().visit(cu2, null);
         
+        
+        file1Data.checkForChangedBodies(file2Data);
+        file1Data.checkForAddedMethods(file2Data);
+        file1Data.checkForDeletedMethods(file2Data);
+        
         System.out.println("File 1 Fields: " + file1Data.getFields().toString());
         System.out.println("File 2 Fields: " + file2Data.getFields().toString());
         System.out.println("");
@@ -137,7 +142,7 @@ public class prototype {
 
     	@Override
     	public void visit(FieldDeclaration n, Object arg) {
-    	    tempFile.addField(n.toString());
+    	    tempFile.addField(n);
     	    super.visit(n, arg);
     	}
     }
