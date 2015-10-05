@@ -154,7 +154,8 @@ public class javaDataType {
 			if(i > 0){ System.out.print(", "); i++;}
 			System.out.print(string);
 		}
-		System.out.println();
+		if(changedMethods.size() == 0) System.out.println("None");
+		else System.out.println();
 		
 		return changedMethods;
 	}

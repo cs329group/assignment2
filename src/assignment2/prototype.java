@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 
 public class prototype {
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 	public static javaDataType tempFile;
 	private static String OS = System.getProperty("os.name").toLowerCase();
 	
@@ -26,6 +26,7 @@ public class prototype {
 		if(args.length != 2 && !DEBUG){
 			// TODO: Once program name is figured out, add it here.
 		    System.out.println("Arguments are invalid. Use java <program TODO CHANGE THIS> <file1> <file2>");
+		    System.exit(0);
 		}
 		
 		String file1name;
